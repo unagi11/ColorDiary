@@ -10,5 +10,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //새로운 컴퓨터에서 issue01 수정
+        //작업 다했다.
     }
 }
