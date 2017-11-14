@@ -13,6 +13,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import android.support.annotation.NonNull;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -43,14 +44,24 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        SignInButton button = (SignInButton)findViewById(R.id.GoogleLoginButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        SignInButton google_login_button = (SignInButton)findViewById(R.id.GoogleLoginButton);
+        google_login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
+        Button write_diary_button = (Button)findViewById(R.id.WriteDairyButton);
+        write_diary_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),WritediaryActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
 
