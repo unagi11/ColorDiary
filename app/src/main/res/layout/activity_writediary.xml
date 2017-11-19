@@ -7,23 +7,40 @@
     android:orientation="vertical"
     tools:context="com.colordiary.ssu16.colordiary.WritediaryActivity">
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="center_vertical|left"
-        android:gravity="start"
-        android:hint="제목을 입력하세요"
-        android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="24sp" />
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/TitleEditText"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:hint="제목"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <ImageButton
+            android:id="@+id/DiaryImage"
+            style="@android:style/Widget.Holo.Light.ImageButton"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_search_category_default"
+            />
+
+    </LinearLayout>
 
     <EditText
+        android:id="@+id/DiaryEditText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:gravity="start"
-        android:hint="일기를 입력하세요"
-        />
+        android:hint="일기" />
+
+
 
 
 </LinearLayout>
