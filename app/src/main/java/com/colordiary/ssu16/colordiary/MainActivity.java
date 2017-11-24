@@ -9,7 +9,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //새로운 컴퓨터에서 issue01 수정
-        //작업 다했다.
+
     }
 }
+//branch issue#5로 만듬!
