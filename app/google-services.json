@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "798277787557",
+    "firebase_url": "https://emotionary-c32de.firebaseio.com",
+    "project_id": "emotionary-c32de",
+    "storage_bucket": "emotionary-c32de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798277787557:android:29f2e8f66ebc3a77",
+        "android_client_info": {
+          "package_name": "com.colordiary.ssu16.colordiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "798277787557-g8ev5h1m58amrm0amof2im8bjc10q4rd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.colordiary.ssu16.colordiary",
+            "certificate_hash": "20f69f85076daec5920c85e4fc8ac2dc21c9876e"
+          }
+        },
+        {
+          "client_id": "798277787557-ri4g3sqgjb2ig9h1qtr8vkcug62ve62v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUm8DwfqQ-omlSUWz4iqIS_84gSUrmU_A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "798277787557-ri4g3sqgjb2ig9h1qtr8vkcug62ve62v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
