@@ -7,30 +7,26 @@
     android:orientation="vertical"
     tools:context="com.colordiary.ssu16.colordiary.WritediaryActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/TitleEditText"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="left|center_vertical"
-            android:hint="제목"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_light_normal_background" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/DiaryImage"
-            style="@android:style/Widget.Holo.Light.ImageButton"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            app:srcCompat="@android:drawable/ic_search_category_default"
-            />
-
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
     </LinearLayout>
+
 
     <EditText
         android:id="@+id/DiaryEditText"
@@ -39,8 +35,6 @@
         android:layout_gravity="start"
         android:gravity="start"
         android:hint="일기" />
-
-
 
 
 </LinearLayout>
