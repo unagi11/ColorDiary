@@ -1,18 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.colordiary.ssu16.colordiary.MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#ffbbbbbb">
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/listed"
+            android:id="@+id/button" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/pencil"
+            android:id="@+id/pencil"/>
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/pencil"
+            android:background="@drawable/photo"/>
 
-</android.support.constraint.ConstraintLayout>
+        <Button android:id="@+id/monthPrevious"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:background="@drawable/backward"
+            android:gravity="center_horizontal"
+            android:layout_alignParentLeft="true"/>
+        <Button android:id="@+id/monthNext"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:background="@drawable/forward"
+            android:gravity="center_horizontal"
+            android:layout_alignParentRight="true"/>
+        <TextView
+            android:id="@+id/monthText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="MonthView"
+            android:textSize="19dp"
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_centerInParent="true"
+        android:background="#BDBDBD"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/sun"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="일"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/mon"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_toEndOf="@+id/sun"
+            android:layout_toRightOf="@+id/sun"
+            android:text="월"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tue"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/mon"
+            android:text="화"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/wed"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/tue"
+            android:text="수"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/thu"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/wed"
+            android:text="목"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/fri"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/thu"
+            android:text="금"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/sat"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toEndOf="@+id/fri"
+            android:layout_toRightOf="@+id/fri"
+            android:text="토"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#BDBDBD"/>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <GridView android:id="@+id/monthView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="7"
+        android:horizontalSpacing="1dp"
+        android:verticalSpacing="1dp"
+        android:background="#ffbbbbbb"/>
+</LinearLayout>
