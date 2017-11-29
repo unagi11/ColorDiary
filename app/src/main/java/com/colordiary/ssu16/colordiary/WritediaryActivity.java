@@ -56,8 +56,8 @@ public class WritediaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_writediary);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        editText_Diary = (EditText)findViewById(R.id.DiaryEditText);
-        imageButton_Diary = (ImageButton)findViewById(R.id.DiaryImage);
+        editText_Diary = (EditText) findViewById(R.id.DiaryEditText);
+        imageButton_Diary = (ImageButton) findViewById(R.id.DiaryImage);
         imageButton_Diary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,11 +94,11 @@ public class WritediaryActivity extends AppCompatActivity {
             //이미지를 하나 골랐을때
             if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data) {
                 Uri uri = data.getData();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 int nh = (int) (bitmap.getHeight() * (1024.0 / bitmap.getWidth()));
                 finalbitmap = Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
                 final float scale = getResources().getDisplayMetrics().density;
-                int dpWidthInPx  = (int) (150 * scale);
+                int dpWidthInPx = (int) (150 * scale);
                 int dpHeightInPx = (int) (150 * scale);
                 imageButton_Diary.setLayoutParams(new LinearLayout.LayoutParams(dpWidthInPx, dpHeightInPx));
                 imageButton_Diary.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -114,7 +114,7 @@ public class WritediaryActivity extends AppCompatActivity {
         }
     }
 
-@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -150,9 +150,10 @@ public class WritediaryActivity extends AppCompatActivity {
                 }
             } else { // 저장하기 구현
                 if (finalbitmap != null)
-                    SaveBitmapToFileCache(finalbitmap);
+                    SaveBitmapToFileCache(finalbitmap, "bitmapfile.jpg");
                 finish();
-/*               File file = getFileStreamPath("bitmapfile.jpg");
+
+/*              File file = getFileStreamPath("bitmapfile.jpg"); //불러오기
                 if(file.exists()) {
                     ImageView imageview = (ImageView)findViewById(R.id.imageView);
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
@@ -169,7 +170,7 @@ public class WritediaryActivity extends AppCompatActivity {
 
     private void hideActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null)
+        if (actionBar != null)
             actionBar.hide();
     }
 
@@ -177,26 +178,17 @@ public class WritediaryActivity extends AppCompatActivity {
         Log.d("hello", editText_Diary.getText().toString());
     }
 
-    private void SaveBitmapToFileCache(Bitmap bitmap) {
-        String filename = "bitmapfile.jpg";
+    private void SaveBitmapToFileCache(Bitmap bitmap, String filename) {
         FileOutputStream outputStream = null;
-        try
-        {
+        try {
             outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 outputStream.close();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

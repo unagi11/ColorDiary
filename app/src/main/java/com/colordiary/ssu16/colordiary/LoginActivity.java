@@ -61,6 +61,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 startActivity(intent);
             }
         });
+
+        Button read_diary_button = (Button)findViewById(R.id.ReadDairyButton);
+        read_diary_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ReaddiaryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
