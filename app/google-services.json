@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "798277787557-hfissp7esldnketqscm565satnrmc2ui.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.colordiary.ssu16.colordiary",
+            "certificate_hash": "52838ea20fec27db41faa6bab23d539109e7039b"
+          }
+        },
+        {
           "client_id": "798277787557-g8ev5h1m58amrm0amof2im8bjc10q4rd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
