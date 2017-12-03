@@ -33,10 +33,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 public class WritediaryActivity extends AppCompatActivity {
 
@@ -128,9 +134,6 @@ public class WritediaryActivity extends AppCompatActivity {
             finish();
             return true;
         } else if (id == R.id.save_button) {
-
-            Toast.makeText(this, "저장버튼 클릭", Toast.LENGTH_SHORT).show();
-
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     new AlertDialog.Builder(this)
@@ -149,19 +152,23 @@ public class WritediaryActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                 }
             } else { // 저장하기 구현
-                if (finalbitmap != null)
-                    SaveBitmapToFileCache(finalbitmap, "bitmapfile.jpg");
-                finish();
+                String date = diary.getCurrentDiaryDate();
+                String text = editText_Diary.getText().toString();
+                String image_name = diary.getCurrentDiaryTime() + ".jpg";
 
-/*              File file = getFileStreamPath("bitmapfile.jpg"); //불러오기
-                if(file.exists()) {
-                    ImageView imageview = (ImageView)findViewById(R.id.imageView);
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
-                    imageview.setImageBitmap(bitmap);
+                if (finalbitmap != null)
+                    SaveBitmapToFileCache(finalbitmap, image_name);
+
+                if (text.isEmpty()) {
+                    Toast.makeText(this, "내용이 없습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference myRef = rootRef.child("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("diary");
+                    diary diary = new diary(date, text, image_name);
+                    myRef.push().setValue(diary);
+                    Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
-                else
-                    Log.d("hello", "응 그딴 파일 없어 ~");
-*/
                 return true;
             }
         }

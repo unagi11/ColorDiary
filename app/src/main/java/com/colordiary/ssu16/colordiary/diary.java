@@ -12,7 +12,15 @@ public class diary {
     private String diary_text;//일기 본문
     private String diary_image_name;//그림 이름
 
-    diary (String date, String text, String image_name) {
+    public diary() {}
+
+    public diary (String text, String image_name) {
+        setDiary_date();
+        setDiary_text(text);
+        setDiary_image_name(image_name);
+    }
+
+    public diary (String date, String text, String image_name) {
         setDiary_date(date);
         setDiary_text(text);
         setDiary_image_name(image_name);
@@ -22,11 +30,23 @@ public class diary {
         return diary_date;
     }
 
-    public void setDiary_date() {
+    public static String getCurrentDiaryDate() {
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        diary_date = sdf.format(date);
+        return sdf.format(date);
+    }
+
+    public static String getCurrentDiaryTime() {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+        return sdf.format(date);
+    }
+
+
+    public void setDiary_date() {
+        diary_date = getCurrentDiaryDate();
     }
 
     public void setDiary_date(String date) {
