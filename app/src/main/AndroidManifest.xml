@@ -44,9 +44,16 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".ReaddiaryActivity"
+        <activity
+            android:name=".ReaddiaryActivity"
             android:label="Read Diary"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".Readdiary2Activity" />
+        <activity android:name=".ReadOnediaryActivity"
+            android:label="Diary"
+            >
+
+        </activity>
     </application>
 
 </manifest>

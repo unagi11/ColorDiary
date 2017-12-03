@@ -1,13 +1,19 @@
 package com.colordiary.ssu16.colordiary;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by unagi on 2017-11-29.
  */
 
-public class diary {
+public class diary implements Serializable{
+
+    private static final long serialVersionUID = 1000000L;
+
     private String diary_date;//날짜
     private String diary_text;//일기 본문
     private String diary_image_name;//그림 이름
@@ -44,6 +50,7 @@ public class diary {
         return sdf.format(date);
     }
 
+    public String getDiary_time() { return getDiary_image_name().substring(0, 19); }
 
     public void setDiary_date() {
         diary_date = getCurrentDiaryDate();
@@ -68,5 +75,15 @@ public class diary {
     public void setDiary_image_name(String image_name) {
         diary_image_name = image_name;
     }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("diary_date", diary_date);
+        result.put("diary_text", diary_text);
+        result.put("diary_image_name", diary_image_name);
+        return result;
+    }
+
+
 
 }

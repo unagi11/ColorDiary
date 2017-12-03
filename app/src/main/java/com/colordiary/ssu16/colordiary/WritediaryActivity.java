@@ -42,7 +42,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static android.os.Build.ID;
 
 public class WritediaryActivity extends AppCompatActivity {
 
@@ -156,17 +160,15 @@ public class WritediaryActivity extends AppCompatActivity {
                 String text = editText_Diary.getText().toString();
                 String image_name = diary.getCurrentDiaryTime() + ".jpg";
 
-                if (finalbitmap != null)
+                if (finalbitmap != null)//이미지 저장
                     SaveBitmapToFileCache(finalbitmap, image_name);
 
                 if (text.isEmpty()) {
                     Toast.makeText(this, "내용이 없습니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-                    DatabaseReference myRef = rootRef.child("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("diary");
                     diary diary = new diary(date, text, image_name);
-                    myRef.push().setValue(diary);
-                    Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+                    postFirebaseDatabase(true, diary);
+
                     finish();
                 }
                 return true;
@@ -175,14 +177,19 @@ public class WritediaryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void hideActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-            actionBar.hide();
-    }
+    public static void postFirebaseDatabase(boolean add, diary t_diary){
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference myRef = rootRef.child("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("diary");
 
-    private void SaveDiaryTOJSON() {
-        Log.d("hello", editText_Diary.getText().toString());
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+        if(add){ //새로 저장 , 갱신이 필요해
+            postValues = t_diary.toMap();
+            childUpdates.put(t_diary.getDiary_time(), postValues);
+            myRef.updateChildren(childUpdates);
+        } else { //데이터 삭제
+            myRef.child(t_diary.getDiary_time()).setValue(null);
+        }
     }
 
     private void SaveBitmapToFileCache(Bitmap bitmap, String filename) {

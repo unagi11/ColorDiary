@@ -1,11 +1,13 @@
 package com.colordiary.ssu16.colordiary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,12 +15,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * Created by unagi on 2017-11-29.
  */
 
-public class diaryView extends LinearLayoutCompat {
+public class diaryView extends LinearLayoutCompat implements Serializable{
+
+    private static final long serialVersionUID = 1000001L;
 
     TextView date_textView;
     TextView diary_textView;
@@ -29,7 +34,7 @@ public class diaryView extends LinearLayoutCompat {
         init(context);
     }
 
-    private void init(Context context) {
+    public void init(Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.a_diary, this, true);
 
