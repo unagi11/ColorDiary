@@ -3,6 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <Button android:id="@+id/monthPrevious"
+        android:layout_width="26dp"
+        android:layout_height="30dp"
+        android:background="@drawable/backward"
+        android:gravity="center_horizontal"
+        android:layout_alignParentLeft="true"/>
+    <Button android:id="@+id/monthNext"
+        android:layout_width="26dp"
+        android:layout_height="30dp"
+        android:background="@drawable/forward"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"/>
+
     <RelativeLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffbbbbbb">
@@ -32,18 +46,6 @@
             android:layout_toLeftOf="@+id/pencil"
             android:background="@drawable/photo"/>
 
-        <Button android:id="@+id/monthPrevious"
-            android:layout_width="26dp"
-            android:layout_height="30dp"
-            android:background="@drawable/backward"
-            android:gravity="center_horizontal"
-            android:layout_alignParentLeft="true"/>
-        <Button android:id="@+id/monthNext"
-            android:layout_width="26dp"
-            android:layout_height="30dp"
-            android:background="@drawable/forward"
-            android:gravity="center_horizontal"
-            android:layout_alignParentRight="true"/>
         <TextView
             android:id="@+id/monthText"
             android:layout_width="200dp"
@@ -70,83 +72,85 @@
         android:layout_height="20dp"
         android:orientation="horizontal"
         android:layout_marginTop="10dp">
+
         <TextView
             android:id="@+id/sun"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:fontFamily="sans-serif-thin"
             android:text="일"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-thin"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/mon"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_toEndOf="@+id/sun"
             android:layout_toRightOf="@+id/sun"
+            android:fontFamily="sans-serif-thin"
             android:text="월"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-thin"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/tue"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_toRightOf="@+id/mon"
+            android:fontFamily="sans-serif-thin"
             android:text="화"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-thin"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/wed"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_toRightOf="@+id/tue"
+            android:fontFamily="sans-serif-thin"
             android:text="수"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-thin"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/thu"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_toRightOf="@+id/wed"
+            android:fontFamily="sans-serif-thin"
             android:text="목"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-thin"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/fri"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_toRightOf="@+id/thu"
+            android:fontFamily="sans-serif-thin"
             android:text="금"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-thin"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/sat"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_toEndOf="@+id/fri"
             android:layout_toRightOf="@+id/fri"
+            android:fontFamily="sans-serif-thin"
             android:text="토"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-thin"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:background="#BDBDBD"/>
     </RelativeLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <GridView android:id="@+id/monthView"
         android:layout_width="match_parent"
