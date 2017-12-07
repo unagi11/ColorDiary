@@ -10,8 +10,5 @@ public class Readdiary2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_readdiary2);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
     }
 }

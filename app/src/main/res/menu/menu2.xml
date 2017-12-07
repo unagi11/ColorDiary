@@ -3,15 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_switch"
+        android:title="public"
+        app:actionLayout="@layout/use_switch"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/delete_button"
         android:icon="@android:drawable/ic_menu_delete"
-        android:title="Save"
+        android:title="delete"
         app:showAsAction="always"></item>
 
     <item
         android:id="@+id/edit_button"
         android:icon="@android:drawable/ic_menu_edit"
-        android:title="Save"
+        android:title="edit"
         app:showAsAction="always"></item>
+
 
 </menu>

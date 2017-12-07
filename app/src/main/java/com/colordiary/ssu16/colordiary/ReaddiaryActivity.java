@@ -23,6 +23,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,23 +34,37 @@ import static android.os.Build.ID;
 public class ReaddiaryActivity extends AppCompatActivity {
 
     static final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    static final DatabaseReference myRef = rootRef.child("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("diary");
+    static final DatabaseReference diarysRef = rootRef.child("diarys");
+    static String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    private int MODE = 0;
+//    static final DatabaseReference myRef = rootRef.child("diarys").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("diary");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_readdiary);
 
+        myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         final ListView listView = (ListView) findViewById(R.id.listView);
         final DiaryAdapter adapter = new DiaryAdapter();
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        MODE = getIntent().getIntExtra("MODE", 0);
+
+        diarysRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 adapter.deleteItemAll();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     diary temp = postSnapshot.getValue(diary.class);
-                    adapter.addItem(temp);
+                    Log.d("hello", ": " + MODE);
+                    if (MODE == 0 && (myUid.compareTo(temp.getDiary_uid()) == 0)) {
+                        adapter.addItem(temp);
+                    }
+                    if (MODE == 1 && temp.isDiary_public()) {
+                        adapter.addItem(temp);
+                    }
                 }
                 listView.setAdapter(adapter);
             }
@@ -67,12 +82,23 @@ public class ReaddiaryActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(), ReadOnediaryActivity.class);
                 intent.putExtra("DIARY", adapter.getItem(position));
+                intent.putExtra("MODE", MODE);
                 startActivity(intent);
             }
         });
 
         listView.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onResume() {
+        String date = diary.getCurrentDiaryDate();
+        String image_name = diary.getCurrentDiaryTime() + ".jpg";
+        diary mdiary = new diary(date, "", image_name, FirebaseAuth.getInstance().getCurrentUser().getUid());
+        WritediaryActivity.postFirebaseDatabase(true, mdiary);
+        WritediaryActivity.postFirebaseDatabase(false, mdiary);
+        super.onResume();
     }
 
     public class DiaryAdapter extends BaseAdapter {
@@ -108,12 +134,14 @@ public class ReaddiaryActivity extends AppCompatActivity {
             diary diary = diarys.get(position);
             view.setDate_textView(diary.getDiary_date());
             view.setDiary_textView(diary.getDiary_text());
-            view.setDiary_imageView(diary.getDiary_image_name(), getApplicationContext());
+            try {
+                view.setDiary_imageView(diary.getDiary_image_name(), getApplicationContext());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             return view;
         }
-
         void addItem(diary diary) {diarys.add(diary);}
     }
-
 }

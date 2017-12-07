@@ -58,15 +58,27 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),WritediaryActivity.class);
+                intent.putExtra("MODE", 0);
                 startActivity(intent);
             }
         });
 
-        Button read_diary_button = (Button)findViewById(R.id.ReadDairyButton);
-        read_diary_button.setOnClickListener(new View.OnClickListener() {
+        Button read_my_diary_button = (Button)findViewById(R.id.ReadMyDairyButton);
+        read_my_diary_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),ReaddiaryActivity.class);
+                intent.putExtra("MODE", 0);
+                startActivity(intent);
+            }
+        });
+
+        Button read_public_diary_button = (Button)findViewById(R.id.ReadPublicDairyButton);
+        read_public_diary_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ReaddiaryActivity.class);
+                intent.putExtra("MODE", 1);
                 startActivity(intent);
             }
         });

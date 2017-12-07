@@ -9,44 +9,44 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Debug;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.ActionBar;
+import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static android.os.Build.ID;
+import static com.colordiary.ssu16.colordiary.ReaddiaryActivity.diarysRef;
 
 public class WritediaryActivity extends AppCompatActivity {
 
@@ -54,20 +54,39 @@ public class WritediaryActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
+    private static final int MAKE_NEW_DIARY_MODE = 0;
+    private static final int EDIT_DIARY_MODE = 1;
+
     private Bitmap finalbitmap = null;
+    private StorageReference mStorageRef;
+    private int mode = 0;
 
     EditText editText_Diary;
-
     ImageButton imageButton_Diary;
+    diary my_diary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writediary);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        mode = getIntent().getIntExtra("MODE", 0);
 
         editText_Diary = (EditText) findViewById(R.id.DiaryEditText);
         imageButton_Diary = (ImageButton) findViewById(R.id.DiaryImage);
+
+        if (mode == EDIT_DIARY_MODE) {
+            my_diary = (diary) getIntent().getSerializableExtra("DIARY");
+            editText_Diary.setText(my_diary.getDiary_text());
+            File file = getApplicationContext().getFileStreamPath(my_diary.getDiary_image_name()); //불러오기
+            if(file.exists()) {
+                Bitmap diary_image = BitmapFactory.decodeFile(file.getPath());
+                imageButton_Diary.setImageBitmap(diary_image);
+            } else Log.d("hello", "이미지 없음");
+        }
+
         imageButton_Diary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,8 +122,8 @@ public class WritediaryActivity extends AppCompatActivity {
         try {
             //이미지를 하나 골랐을때
             if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data) {
-                Uri uri = data.getData();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                Uri bitmapUri = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), bitmapUri);
                 int nh = (int) (bitmap.getHeight() * (1024.0 / bitmap.getWidth()));
                 finalbitmap = Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
                 final float scale = getResources().getDisplayMetrics().density;
@@ -159,16 +178,23 @@ public class WritediaryActivity extends AppCompatActivity {
                 String date = diary.getCurrentDiaryDate();
                 String text = editText_Diary.getText().toString();
                 String image_name = diary.getCurrentDiaryTime() + ".jpg";
+                if (mode == MAKE_NEW_DIARY_MODE) {
+                    my_diary = new diary(date, text, image_name, FirebaseAuth.getInstance().getCurrentUser().getUid());
+                } else if (mode == EDIT_DIARY_MODE) {
+                    my_diary.setDiary_text(text);
+                }
 
                 if (finalbitmap != null)//이미지 저장
-                    SaveBitmapToFileCache(finalbitmap, image_name);
+                    try {
+                        SaveBitmapToFileCache(finalbitmap, my_diary.getDiary_image_name());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
 
                 if (text.isEmpty()) {
                     Toast.makeText(this, "내용이 없습니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    diary diary = new diary(date, text, image_name);
-                    postFirebaseDatabase(true, diary);
-
+                    postFirebaseDatabase(true, my_diary);
                     finish();
                 }
                 return true;
@@ -178,21 +204,18 @@ public class WritediaryActivity extends AppCompatActivity {
     }
 
     public static void postFirebaseDatabase(boolean add, diary t_diary){
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference myRef = rootRef.child("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("diary");
-
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
         if(add){ //새로 저장 , 갱신이 필요해
             postValues = t_diary.toMap();
             childUpdates.put(t_diary.getDiary_time(), postValues);
-            myRef.updateChildren(childUpdates);
+            diarysRef.updateChildren(childUpdates);
         } else { //데이터 삭제
-            myRef.child(t_diary.getDiary_time()).setValue(null);
+            diarysRef.child(t_diary.getDiary_time()).setValue(null);
         }
     }
 
-    private void SaveBitmapToFileCache(Bitmap bitmap, String filename) {
+    private void SaveBitmapToFileCache(Bitmap bitmap, String filename) throws FileNotFoundException {
         FileOutputStream outputStream = null;
         try {
             outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
@@ -206,5 +229,24 @@ public class WritediaryActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        InputStream inputStream = openFileInput(filename);
+
+        StorageReference imageRef = mStorageRef.child("images/" + filename);
+        imageRef.putStream(inputStream)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                    }
+                });
     }
 }

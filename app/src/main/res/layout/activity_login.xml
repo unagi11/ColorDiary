@@ -18,9 +18,15 @@
         android:text="일기쓰기"/>
 
     <Button
-        android:id="@+id/ReadDairyButton"
+        android:id="@+id/ReadMyDairyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="일기보기"/>
+        android:text="내 일기보기"/>
+
+    <Button
+        android:id="@+id/ReadPublicDairyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="공개 일기보기"/>
 
 </LinearLayout>

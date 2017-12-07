@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,16 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -47,11 +54,29 @@ public class diaryView extends LinearLayoutCompat implements Serializable{
 
     void setDiary_textView(String diary_text) { diary_textView.setText(diary_text); }
 
-    void setDiary_imageView(String diary_image_name, Context context) {
+    void setDiary_imageView(String diary_image_name, Context context) throws IOException {
         File file = context.getFileStreamPath(diary_image_name); //불러오기
         if(file.exists()) {
             Bitmap diary_image = BitmapFactory.decodeFile(file.getPath());
             diary_imageView.setImageBitmap(diary_image);
-        } else Log.d("hello", "이미지 없음");
+        } else {
+            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference imageRef = mStorageRef.child("images/" + diary_image_name);
+            final File localFile = File.createTempFile("images", "jpg");
+            imageRef.getFile(localFile)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Bitmap diary_image = BitmapFactory.decodeFile(localFile.getPath());
+                            diary_imageView.setImageBitmap(diary_image);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle failed download
+                    // ...
+                }
+            });
+        }
     }
 }
