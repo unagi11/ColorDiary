@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ColorDiary</string>
+    <string-array name="image_ids">
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+    </string-array>
 </resources>
