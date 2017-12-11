@@ -2,20 +2,29 @@ package com.colordiary.ssu16.colordiary;
 
 import android.graphics.Bitmap;
 
-
-
 public class ImageItem {
-    private Bitmap image;
+    private Bitmap bitmap;
+    private String name;
 
-    public ImageItem(Bitmap image, String title) {
+    public ImageItem(Bitmap image, String name) {
         super();
-        this.image = image;
+        this.bitmap = image;
+        this.name = name;
     }
 
     public Bitmap getImage() {
-        return image;
+        return bitmap;
     }
+
     public void setImage(Bitmap image) {
-        this.image = image;
+        this.bitmap = image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

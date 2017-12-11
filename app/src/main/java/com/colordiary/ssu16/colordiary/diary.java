@@ -11,7 +11,6 @@ import java.util.Map;
 public class diary implements Serializable{
 
     private static final long serialVersionUID = 1000000L;
-
     private String diary_date;//날짜 YYYY-MM-DD
     private String diary_text;//일기 본문
     private String diary_image_name;//그림 이름
