@@ -48,7 +48,7 @@ public class ReaddiaryActivity extends AppCompatActivity {
         myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         final ListView listView = (ListView) findViewById(R.id.listView);
-        final DiaryAdapter adapter = new DiaryAdapter();
+        final DiaryAdapter adapter = new DiaryAdapter(getApplicationContext());
 
         MODE = getIntent().getIntExtra("MODE", 0);
 
@@ -101,47 +101,4 @@ public class ReaddiaryActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    public class DiaryAdapter extends BaseAdapter {
-
-        private ArrayList<diary> diarys = new ArrayList();
-
-        public void deleteItem(int position) { diarys.remove(position); }
-
-        public void deleteItemAll() { diarys.clear(); }
-
-        @Override
-        public int getCount() {
-            return diarys.size();
-        }
-
-        @Override
-        public diary getItem(int position) {
-            return diarys.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            diaryView view = (diaryView) convertView;
-            if (convertView == null)
-                view = new diaryView(getApplicationContext());
-
-            diary diary = diarys.get(position);
-            view.setDate_textView(diary.getDiary_date());
-            view.setDiary_textView(diary.getDiary_text());
-            try {
-                view.setDiary_imageView(diary.getDiary_image_name(), getApplicationContext());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return view;
-        }
-        void addItem(diary diary) {diarys.add(diary);}
-    }
 }

@@ -55,10 +55,14 @@ public class diaryView extends LinearLayoutCompat implements Serializable{
     void setDiary_textView(String diary_text) { diary_textView.setText(diary_text); }
 
     void setDiary_imageView(String diary_image_name, Context context) throws IOException {
+        setImageViewByImageName(diary_imageView, context, diary_image_name);
+    }
+
+    static void setImageViewByImageName(final ImageView view, Context context , String diary_image_name) throws IOException {
         File file = context.getFileStreamPath(diary_image_name); //불러오기
         if(file.exists()) {
             Bitmap diary_image = BitmapFactory.decodeFile(file.getPath());
-            diary_imageView.setImageBitmap(diary_image);
+            view.setImageBitmap(diary_image);
         } else {
             StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
             StorageReference imageRef = mStorageRef.child("images/" + diary_image_name);
@@ -68,7 +72,7 @@ public class diaryView extends LinearLayoutCompat implements Serializable{
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             Bitmap diary_image = BitmapFactory.decodeFile(localFile.getPath());
-                            diary_imageView.setImageBitmap(diary_image);
+                            view.setImageBitmap(diary_image);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -78,5 +82,6 @@ public class diaryView extends LinearLayoutCompat implements Serializable{
                 }
             });
         }
+
     }
 }

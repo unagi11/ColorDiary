@@ -1,13 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
-    android:padding="5dp">
-
-    <ImageView
-        android:id="@+id/item_image_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
-</LinearLayout>
+<ImageView android:id="@+id/item_image_view"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

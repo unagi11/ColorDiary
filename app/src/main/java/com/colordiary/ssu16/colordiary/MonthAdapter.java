@@ -19,6 +19,7 @@ public class MonthAdapter extends BaseAdapter {
     int offsetOfFirstDay;
     int lastDay;
     Calendar mCalendar;
+
     public MonthAdapter(Context context) {
         super();
         mContext = context;
@@ -100,7 +101,7 @@ public class MonthAdapter extends BaseAdapter {
         }
 // create a params
         GridView.LayoutParams params = new GridView.LayoutParams(
-                GridView.LayoutParams.MATCH_PARENT,120);
+                GridView.LayoutParams.MATCH_PARENT,150);
 // calculate columnIndex
         int columnIndex = position % 7;
 // set item data and properties

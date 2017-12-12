@@ -10,13 +10,21 @@
             android:id="@+id/nav_calendar2"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Gallery Calendar" />
-        <item
-            android:id="@+id/nav_options"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Options" />
-        <item
-            android:id="@+id/nav_cummunication"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Communication View" />
     </group>
+
+    <item
+        android:id="@+id/nav_DiaryList"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="MyDiaryList" />
+
+    <item
+        android:id="@+id/nav_cummunication"
+        android:icon="@drawable/ic_menu_share"
+        android:title="Communication View" />
+
+    <item
+        android:id="@+id/nav_options"
+        android:icon="@drawable/ic_menu_manage"
+        android:title="Options" />
+
 </menu>
