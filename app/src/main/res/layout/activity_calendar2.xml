@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.colordiary.ssu16.colordiary.ReadOnediaryActivity">
+    tools:context="com.colordiary.ssu16.colordiary.Calendar2Activity">
 
 </android.support.constraint.ConstraintLayout>
