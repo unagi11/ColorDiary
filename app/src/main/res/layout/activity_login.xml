@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.colordiary.ssu16.colordiary.LoginActivity">
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/GoogleLoginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.google.android.gms.common.SignInButton>
+
+    <Button
+        android:id="@+id/WriteDairyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="일기쓰기"/>
+
+    <Button
+        android:id="@+id/ReadMyDairyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="내 일기보기"/>
+
+    <Button
+        android:id="@+id/ReadPublicDairyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="공개 일기보기"/>
+
+</LinearLayout>
