@@ -81,6 +81,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
             intent.setClass(getApplicationContext(), todayfeelActivity.class);
             startActivity(intent);
         }
+
         if (LockActivity.loadPassword(getApplicationContext()).compareTo("") != 0) {
             Intent intent = new Intent();
             intent.setClass(getApplicationContext(), LockActivity.class);
@@ -156,7 +157,8 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
             intent.putExtra("MODE", 1);
             startActivity(intent);
         } else if (id == R.id.nav_options) {
-
+            Intent intent = new Intent(getApplicationContext(),OptionActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

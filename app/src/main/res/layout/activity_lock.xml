@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:hint="Input Password"
         android:inputType="numberPassword"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
 
 </LinearLayout>
