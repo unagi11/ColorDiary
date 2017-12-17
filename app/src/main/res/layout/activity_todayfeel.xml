@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="오늘 날씨는 어떤가요?"
+        android:textSize="25sp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:columnCount="4"
+        >
+
+        <ImageButton
+            android:id="@+id/snow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/snow" />
+
+        <ImageButton
+            android:id="@+id/rain"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/rain" />
+
+        <ImageButton
+            android:id="@+id/windy"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/windy" />
+
+        <ImageButton
+            android:id="@+id/cloud"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/cloud"
+            />
+
+        <ImageButton
+            android:id="@+id/hail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/hail" />
+
+        <ImageButton
+            android:id="@+id/fog"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/fog" />
+
+        <ImageButton
+            android:id="@+id/sun"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/sun" />
+
+        <ImageButton
+            android:id="@+id/thunder"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/thunder" />
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="오늘 하루는 어떤가요?"
+        android:textSize="25sp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:columnCount="4">
+
+        <ImageButton
+            android:id="@+id/unhappy"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/unhappy" />
+
+        <ImageButton
+            android:id="@+id/sad"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/sad" />
+
+        <ImageButton
+            android:id="@+id/happy"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/happy" />
+
+        <ImageButton
+            android:id="@+id/angry"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/angry" />
+
+        <ImageButton
+            android:id="@+id/veryhappy"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/veryhappy" />
+
+        <ImageButton
+            android:id="@+id/surprise"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/normal" />
+
+        <ImageButton
+            android:id="@+id/normal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/surprise" />
+
+        <ImageButton
+            android:id="@+id/cool"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="#ffffff"
+            app:srcCompat="@drawable/cool" />
+    </GridLayout>
+
+</LinearLayout>

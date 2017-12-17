@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * Created by unagi on 2017-12-12.
  */
 
-
 public class DiaryAdapter extends BaseAdapter {
 
     Context mycontext;

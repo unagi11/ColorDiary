@@ -110,11 +110,20 @@ public class MonthAdapter extends BaseAdapter {
         itemView.setPadding(2, 2, 2, 2);
 // set properties
         itemView.setGravity(Gravity.CENTER);
-        if (columnIndex == 0) {
-            itemView.setTextColor(Color.DKGRAY);
-        } else {
-            itemView.setTextColor(Color.GRAY);
-        }
+
+        itemView.setTextColor(Color.BLACK);
+
+        String Month = Integer.toString(getCurMonth() + 1);
+        String Day = Integer.toString(((MonthItem)getItem(position)).getDay());
+
+        if (Month.length() == 1)
+            Month = "0" + Month;
+        if (Day.length() == 1)
+            Day = "0" + Day;
+        final String Date = "" + getCurYear() + "-" + Month + "-" + Day;
+
+        itemView.setBackgroundColor(todayfeelActivity.loadEmotionInfo(mContext, Date));
+
         return itemView;
     } // end getView()
 } // end class MonthAdapter

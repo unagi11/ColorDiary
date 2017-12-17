@@ -81,6 +81,7 @@ public class diaryView extends LinearLayoutCompat implements Serializable{
                     // ...
                 }
             });
+
         }
 
     }

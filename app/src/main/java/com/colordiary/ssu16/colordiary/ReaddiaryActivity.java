@@ -38,7 +38,6 @@ public class ReaddiaryActivity extends AppCompatActivity {
     static String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     private int MODE = 0;
-//    static final DatabaseReference myRef = rootRef.child("diarys").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("diary");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,6 @@ public class ReaddiaryActivity extends AppCompatActivity {
                 adapter.deleteItemAll();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     diary temp = postSnapshot.getValue(diary.class);
-                    Log.d("hello", ": " + MODE);
                     if (MODE == 0 && (myUid.compareTo(temp.getDiary_uid()) == 0)) {
                         adapter.addItem(temp);
                     }
@@ -86,19 +84,24 @@ public class ReaddiaryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         listView.setAdapter(adapter);
-
     }
 
     @Override
     protected void onResume() {
-        String date = diary.getCurrentDiaryDate();
-        String image_name = diary.getCurrentDiaryTime() + ".jpg";
-        diary mdiary = new diary(date, "", image_name, FirebaseAuth.getInstance().getCurrentUser().getUid());
-        WritediaryActivity.postFirebaseDatabase(true, mdiary);
-        WritediaryActivity.postFirebaseDatabase(false, mdiary);
         super.onResume();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            String date = "";
+            String image_name = diary.getCurrentDiaryTime() + ".jpg";
+            diary mdiary = new diary(date, "", image_name, FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            Map<String, Object> childUpdates = new HashMap<>();
+            Map<String, Object> postValues = null;
+            postValues = mdiary.toMap();
+            childUpdates.put("dummy", postValues);
+            diarysRef.updateChildren(childUpdates);
+            diarysRef.child("dummy").setValue(null);
+        }
     }
 
 }

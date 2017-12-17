@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,27 +31,62 @@ import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.colordiary.ssu16.colordiary.ReaddiaryActivity.diarysRef;
 import static com.colordiary.ssu16.colordiary.ReaddiaryActivity.myUid;
 
-public class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+public class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener{
     MonthAdapter monthViewAdapter;
     GridLayout container;
     private GridView gridView;
     private DiaryAdapter2 gridAdapter;
 
+    private static final int RC_SIGN_IN = 10;
+    private GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
+        if (todayfeelActivity.loadEmotionInfo(getApplicationContext(), diary.getCurrentDiaryDate()) == Color.WHITE) {
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(), todayfeelActivity.class);
+            startActivity(intent);
+        }
+        if (LockActivity.loadPassword(getApplicationContext()).compareTo("") != 0) {
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(), LockActivity.class);
+            startActivity(intent);
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.BLACK);
@@ -72,6 +109,20 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(CalendarActivity.this /* FragmentActivity */, CalendarActivity.this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
 
         changeView(R.id.nav_calendar1);
     }
@@ -267,9 +318,54 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
+    protected void onResume() {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            String date = "";
+            String image_name = diary.getCurrentDiaryTime() + ".jpg";
+            diary mdiary = new diary(date, "", image_name, FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-    private void changeView2 (int index) {
+            Map<String, Object> childUpdates = new HashMap<>();
+            Map<String, Object> postValues = null;
+            postValues = mdiary.toMap();
+            childUpdates.put("dummy", postValues);
+            diarysRef.updateChildren(childUpdates);
+            diarysRef.child("dummy").setValue(null);
+        }
+        super.onResume();
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = result.getSignInAccount();
+                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                mAuth.signInWithCredential(credential)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                // If sign in fails, display a message to the user. If sign in succeeds
+                                // the auth state listener will be notified and logic to handle the
+                                // signed in user can be handled in the listener.
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(CalendarActivity.this, "FireBase아이디 생성이 실패 했습니다", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(CalendarActivity.this, "로그인이 정상적으로 되었습니다", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            } else {
+                // Google Sign In failed, update UI appropriately
+                // ...
+            }
+        }
+    }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(CalendarActivity.this, "Firebase 계정 생성 연결에 실패했습니다.", Toast.LENGTH_SHORT).show();
+    }
 }
